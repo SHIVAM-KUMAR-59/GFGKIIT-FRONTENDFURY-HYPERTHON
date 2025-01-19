@@ -1,8 +1,10 @@
 import User from '@/models/User'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import configDB from '@/app/lib/configDB'
 
 export default async function handler(req, res) {
+  await configDB()
   const { email, password } = req.body
   if (!email || !password) {
     return res.status(400).json({ error: 'All fields are required' })
@@ -37,13 +39,11 @@ export default async function handler(req, res) {
       expenseHistory: user.expenseHistory,
     }
 
-    return res
-      .status(201)
-      .json({
-        message: 'User signedin Successfully',
-        userWithoutPassword,
-        token,
-      })
+    return res.status(201).json({
+      message: 'User signedin Successfully',
+      userWithoutPassword,
+      token,
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ error: 'Internal Server Error' })
