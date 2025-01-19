@@ -1,5 +1,4 @@
-import jwt from 'jsonwebtoken'
-import verifyToken from '@/middleware/verifyToken' // Import the verifyToken utility
+import verifyToken from '@/middleware/verifyToken'
 import configDB from '@/app/lib/configDB'
 import User from '@/models/User'
 import Expense from '@/models/Expense'
@@ -7,34 +6,22 @@ import Expense from '@/models/Expense'
 const handler = async (req, res) => {
   await configDB()
 
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
+    console.log('Hit')
     const { amount, description, category } = req.body
     if (!amount || !description || !category) {
       return res.status(400).json({ error: 'All fields are required' })
     }
 
     try {
-      const user = await User.findById(req.user.id)
+      const user = await User.findById(req.user.id).populate('expenseHistory')
       if (!user) {
         return res.status(404).json({ error: 'User not found' })
       }
 
-      const expense = new Expense({
-        createdBy: user._id,
-        amount,
-        description,
-        category,
-      })
-
-      user.expenseHistory.push(expense._id)
-
-      await user.save()
-
-      await expense.save()
-
       return res
         .status(200)
-        .json({ message: 'Payment created successfully', expense })
+        .json({ message: 'Payment created successfully', user })
     } catch (error) {
       console.log(error)
       return res.status(500).json({ error: 'Error creating payment' })
@@ -44,5 +31,4 @@ const handler = async (req, res) => {
   }
 }
 
-// Wrap the handler with the verifyToken middleware
 export default verifyToken(handler)
