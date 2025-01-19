@@ -3,6 +3,13 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 
 const CreatePayment = ({ onNewPayment }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm()
+
   const onSubmit = async (data) => {
     console.log('Payment data submitted:', data) // Log data to check
 
@@ -24,20 +31,13 @@ const CreatePayment = ({ onNewPayment }) => {
       // After successfully creating a payment, call the parent function to update the list
       if (response.data.success) {
         onNewPayment() // Trigger a re-fetch of payments in the parent component
-        reset()
+        reset() // Reset the form after successful submission
       }
     } catch (error) {
       console.error('Error during payment creation:', error)
       alert('Something went wrong during payment creation!')
     }
   }
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm()
 
   return (
     <form
