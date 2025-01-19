@@ -33,6 +33,7 @@ const ExpenseSchema = mongoose.Schema({
   },
 })
 
-const Expense = mongoose.models.Expense || mongoose.model('User', ExpenseSchema)
+const Expense =
+  mongoose.models.Expense || mongoose.model('Expense', ExpenseSchema)
 
 export default Expense
