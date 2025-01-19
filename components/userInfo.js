@@ -4,11 +4,10 @@ const UserInfo = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // Retrieve user information from localStorage
     const userInfo = localStorage.getItem('user')
 
     if (userInfo) {
-      // Parse the user info (assuming it is stored as a JSON string)
+      console.log(userInfo)
       setUser(JSON.parse(userInfo))
     }
   }, [])
@@ -28,9 +27,8 @@ const UserInfo = () => {
               <strong>Email:</strong> {user.email}
             </p>
             <p className="text-lg">
-              <strong>Role:</strong> {user.role}
+              <strong>Username:</strong> {user.username}
             </p>
-            {/* You can add more fields based on the stored user data */}
           </div>
         ) : (
           <p className="text-gray-500">Loading user information...</p>
