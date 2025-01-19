@@ -16,6 +16,11 @@ const Register = () => {
     try {
       const response = await axios.post('/api/auth/register', data)
       if (response.status === 201) {
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem(
+          'user',
+          JSON.stringify(response.data.userWithoutPassword),
+        )
         alert('Registered successfully')
         reset()
       }

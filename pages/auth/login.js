@@ -18,6 +18,11 @@ const Login = () => {
       const response = await axios.post('/api/auth/login', data)
       console.log(response)
       if (response.status === 201) {
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem(
+          'user',
+          JSON.stringify(response.data.userWithoutPassword),
+        )
         alert('Logged in successfully')
         reset()
       }
