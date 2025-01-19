@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import '@/app/globals.css'
 import axios from 'axios'
+import BackgroundIcons from '@/components/BackGroundIcons'
 
 const Register = () => {
   const {
@@ -22,32 +23,33 @@ const Register = () => {
     } catch (error) {
       console.error(
         'Error during registration:',
-        error.response?.data || error.error,
+        error.response?.data || error.error
       )
       alert(error.response?.data?.error || 'Something went wrong!')
     }
   }
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
+    <div className="flex justify-center items-center h-screen bg-gray-900 text-gray-200">
+      <BackgroundIcons/>
+      <div className="w-full max-w-md bg-gray-800 p-8 rounded-xl shadow-lg  z-10">
+        <h2 className="text-3xl font-bold text-center text-gray-100 mb-6">
           Register
         </h2>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 text-gray-800"
+          className="space-y-6 text-gray-100"
         >
           <div>
             <input
               type="text"
               placeholder="Name"
               {...register('name', { required: 'Name is required' })}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
+              <p className="text-red-400 text-sm">{errors.name.message}</p>
             )}
           </div>
 
@@ -56,10 +58,10 @@ const Register = () => {
               type="text"
               placeholder="Username"
               {...register('username', { required: 'Username is required' })}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.username && (
-              <p className="text-red-500 text-sm">{errors.username.message}</p>
+              <p className="text-red-400 text-sm">{errors.username.message}</p>
             )}
           </div>
 
@@ -74,10 +76,10 @@ const Register = () => {
                   message: 'Invalid email address',
                 },
               })}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+              <p className="text-red-400 text-sm">{errors.email.message}</p>
             )}
           </div>
 
@@ -86,10 +88,10 @@ const Register = () => {
               type="password"
               placeholder="Password"
               {...register('password', { required: 'Password is required' })}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
+              <p className="text-red-400 text-sm">{errors.password.message}</p>
             )}
           </div>
 
