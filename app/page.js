@@ -1,9 +1,46 @@
-import Image from 'next/image'
+import React from 'react';
+import { Wallet } from 'lucide-react';
+import  BackgroundIcons  from '../components/BackGroundIcons';
+import { quotes } from '@/store/Quotes';
 
-export default function Home() {
+const HomePage = () => {
+  const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      Hyperthon
+    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-4">
+       <BackgroundIcons/>
+      <div className="w-full max-w-lg bg-gray-900 rounded-xl border border-gray-800 p-6 z-10">
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            <Wallet className="h-12 w-12 text-blue-500" />
+          </div>
+          <h1 className="text-3xl font-bold mb-2 text-gray-100">
+            Welcome to ExpenseTracker
+          </h1>
+          <p className="text-lg text-gray-400">
+            Take control of your finances, one transaction at a time
+          </p>
+        </div>
+        
+        <div className="my-6 p-4 bg-gray-800 rounded-lg italic text-center text-gray-300">
+          {randomQuote}
+        </div>
+        
+        <div className="flex flex-col gap-2 mt-6">
+          <button 
+            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+          >
+            Sign In
+          </button>
+          <button 
+            className="w-full py-3 px-4 border border-gray-700 hover:bg-gray-800 text-gray-300 font-semibold rounded-lg transition-colors"
+          >
+            Create Account
+          </button>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default HomePage;
