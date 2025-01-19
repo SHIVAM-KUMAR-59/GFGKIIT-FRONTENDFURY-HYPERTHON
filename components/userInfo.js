@@ -7,33 +7,30 @@ const UserInfo = () => {
     const userInfo = localStorage.getItem('user')
 
     if (userInfo) {
-      console.log(userInfo)
       setUser(JSON.parse(userInfo))
     }
   }, [])
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
-          User Information
-        </h2>
-        {user ? (
-          <div className="space-y-4 text-gray-800">
-            <p className="text-lg">
-              <strong>Name:</strong> {user.name}
-            </p>
-            <p className="text-lg">
-              <strong>Email:</strong> {user.email}
-            </p>
-            <p className="text-lg">
-              <strong>Username:</strong> {user.username}
-            </p>
-          </div>
-        ) : (
-          <p className="text-gray-500">Loading user information...</p>
-        )}
-      </div>
+    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold text-gray-100 mb-4">
+        User Information
+      </h2>
+      {user ? (
+        <div className="space-y-4">
+          <p className="text-lg text-gray-200">
+            <strong className="font-semibold">Name:</strong> {user.name}
+          </p>
+          <p className="text-lg text-gray-200">
+            <strong className="font-semibold">Email:</strong> {user.email}
+          </p>
+          <p className="text-lg text-gray-200">
+            <strong className="font-semibold">Username:</strong> {user.username}
+          </p>
+        </div>
+      ) : (
+        <p className="text-gray-500">Loading user information...</p>
+      )}
     </div>
   )
 }
