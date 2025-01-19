@@ -1,5 +1,5 @@
 import User from '@/models/User'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import configDB from '@/app/lib/configDB'
 
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
     const isPasswordValid = await bcrypt.compare(password, user.password)
     if (!isPasswordValid) {
-      return res.status(400).json({ error: 'Invalid password' })
+      return res.status(400).json({ error: 'Invalid Email or password' })
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

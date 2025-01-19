@@ -1,5 +1,5 @@
 import User from '@/models/User'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import configDB from '@/app/lib/configDB'
 import jwt from 'jsonwebtoken'
 
@@ -28,7 +28,8 @@ export default async function handler(req, res) {
       password: hashedPassword,
     })
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    await newUser.save()
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     })
 
@@ -36,21 +37,17 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Error generating token' })
     }
 
-    await newUser.save()
-
     const userWithoutPassword = {
-      _id: user._id,
-      name: user.name,
-      username: user.username,
-      email: user.email,
+      _id: newUser._id,
+      name: newUser.name,
+      username: newUser.username,
+      email: newUser.email,
     }
-    return res
-      .status(201)
-      .json({
-        message: 'User created successfully',
-        userWithoutPassword,
-        token,
-      })
+    return res.status(201).json({
+      message: 'User created successfully',
+      userWithoutPassword,
+      token,
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ error: 'Internal Server Error' })
