@@ -18,7 +18,7 @@ async function configDB() {
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI)
   }
-
+  console.log('Connected')
   cached.conn = await cached.promise
   return cached.conn
 }

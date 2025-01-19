@@ -11,24 +11,26 @@ const Dashboard = () => {
 
   // Function to be passed to CreatePayment to trigger re-fetch
   const handleNewPayment = () => {
+    console.log('newPayment', newPayment)
     setNewPayment((prevState) => !prevState) // Toggle state to re-fetch payments
   }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center w-full p-3 lg:p-5">
       <h2 className="text-3xl text-gray-100 mb-6">Payment Dashboard</h2>
-      <div className="flex justify-between w-full max-w-7xl gap-4">
-        {/* UserInfo - takes up remaining space */}
-        <div className="min-h-[700px] flex-1 bg-gray-800 p-6 rounded-lg shadow-lg">
+      <div className="flex flex-col md:flex-row justify-between w-[95%] gap-4">
+        <div className="min-h-[700px] flex-1 bg-gray-800 p-6 rounded-lg shadow-lg w-[95%]">
           <UserInfo />
-          <DonutChart />
-          <LineChart />
+          <div className="flex flex-col md:flex-row">
+            <DonutChart />
+            <LineChart />
+          </div>
         </div>
 
         {/* CreatePayment and AllPayments - fixed width */}
-        <div className="w-[30%] flex flex-col gap-4">
+        <div className="w-full md:w-[30%] flex flex-col gap-4">
           <CreatePayment onNewPayment={handleNewPayment} />
-          <AllPayments />
+          <AllPayments newPayment={newPayment} />
         </div>
       </div>
     </div>
