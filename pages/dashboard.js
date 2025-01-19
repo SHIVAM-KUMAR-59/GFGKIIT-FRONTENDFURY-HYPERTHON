@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import '@/app/globals.css'
 import CreatePayment from '@/components/createPayment'
+import UserInfo from '@/components/userInfo'
 
 const Dashboard = () => {
   return (
@@ -11,6 +12,7 @@ const Dashboard = () => {
             Dashboard
           </h2>
           <CreatePayment />
+          {/* <UserInfo /> */}
         </div>
       </div>
     </>
