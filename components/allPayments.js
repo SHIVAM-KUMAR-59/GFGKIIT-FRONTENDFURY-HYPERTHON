@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const AllPayments = () => {
-  const [payments, setPayments] = useState([]); // State to store payments
-  const [loading, setLoading] = useState(true); // State to handle loading
-  const [error, setError] = useState(null); // State to handle errors
+  const [payments, setPayments] = useState([]) // State to store payments
+  const [loading, setLoading] = useState(true) // State to handle loading
+  const [error, setError] = useState(null) // State to handle errors
 
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
+        const token = localStorage.getItem('token') // Get the token from localStorage
         if (!token) {
-          setError('You must be logged in to view payments.');
-          setLoading(false);
-          return;
+          setError('You must be logged in to view payments.')
+          setLoading(false)
+          return
         }
 
-        const response = await axios.get('/api/payments', {
+        const response = await axios.get('/api/payment/getPayment', {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in the request header
           },
-        });
-        setPayments(response.data); // Update state with payments data
+        })
+        console.log('response', response.data.user.expenseHistory)
+        setPayments(response.data.user.expenseHistory) // Update state with payments data
       } catch (err) {
-        console.error('Error fetching payments:', err);
-        setError(err.response?.data?.message || 'Failed to fetch payments.');
+        console.error('Error fetching payments:', err)
+        setError(err.response?.data?.message || 'Failed to fetch payments.')
       } finally {
-        setLoading(false); // Stop loading after the request
+        setLoading(false) // Stop loading after the request
       }
-    };
+    }
 
-    fetchPayments();
-  }, []); // Empty dependency array to run on component mount
+    fetchPayments()
+  }, []) // Empty dependency array to run on component mount
 
-  if (loading) return <div>Loading payments...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (loading) return <div>Loading payments...</div>
+  if (error) return <div className="text-red-500">{error}</div>
 
   return (
     <div className="p-6">
@@ -55,7 +56,8 @@ const AllPayments = () => {
                 <strong>Amount:</strong> ${payment.amount}
               </p>
               <p>
-                <strong>Date:</strong> {new Date(payment.date).toLocaleDateString()}
+                <strong>Date:</strong>{' '}
+                {new Date(payment.date).toLocaleDateString()}
               </p>
               <p>
                 <strong>Description:</strong> {payment.description || 'N/A'}
@@ -65,7 +67,7 @@ const AllPayments = () => {
         </ul>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default AllPayments;
+export default AllPayments
