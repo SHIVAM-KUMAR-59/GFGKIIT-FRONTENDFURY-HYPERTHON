@@ -3,6 +3,8 @@ import '@/app/globals.css'
 import CreatePayment from '@/components/createPayment'
 import AllPayments from '@/components/allPayments'
 import UserInfo from '@/components/userInfo'
+import DonutChart from '@/components/donutChart'
+import LineChart from '@/components/lineChart'
 
 const Dashboard = () => {
   return (
@@ -15,6 +17,8 @@ const Dashboard = () => {
           <UserInfo />
           <CreatePayment />
           <AllPayments />
+          {/* <DonutChart/>
+          <LineChart/> */}
         </div>
       </div>
     </>

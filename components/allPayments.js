@@ -21,6 +21,7 @@ const AllPayments = () => {
             Authorization: `Bearer ${token}`, // Include token in the request header
           },
         });
+        console.log(response.user);
         console.log('response', response.data.user.expenseHistory);
         setPayments(response.data.user.expenseHistory || []); // Update state with payments data
       } catch (err) {
