@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '@/app/globals.css'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
@@ -9,6 +9,21 @@ const Dashboard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm()
+
+  const getAllPayments = async () => {
+    try {
+      console.log('Fetching payments...')
+      const payments = await axios.get('/api/payment/getPayment') // Updated endpoint
+      console.log('Payments:', payments.data)
+    } catch (error) {
+      console.error('Error fetching payments:', error)
+      alert('Failed to fetch payments')
+    }
+  }
+
+  useEffect(() => {
+    getAllPayments()
+  }, [])
 
   const onSubmit = async (data) => {
     // Get the token from local storage
