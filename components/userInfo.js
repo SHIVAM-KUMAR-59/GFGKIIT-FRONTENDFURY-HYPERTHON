@@ -12,7 +12,7 @@ const UserInfo = () => {
   }, [])
 
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+    <div className="bg-gray-700 p-6 rounded-lg shadow-lg shadow-slate-800 hover:shadow-slate-900  transition-all duration-200">
       <h2 className="text-2xl font-semibold text-gray-100 mb-4">
         User Information
       </h2>

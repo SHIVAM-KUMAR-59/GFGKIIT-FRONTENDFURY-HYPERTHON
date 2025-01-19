@@ -19,16 +19,16 @@ const Dashboard = () => {
       <h2 className="text-3xl text-gray-100 mb-6">Payment Dashboard</h2>
       <div className="flex justify-between w-full max-w-7xl gap-4">
         {/* UserInfo - takes up remaining space */}
-        <div className="max-h-[700px] flex-1 bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div className="min-h-[700px] flex-1 bg-gray-800 p-6 rounded-lg shadow-lg">
           <UserInfo />
+          <DonutChart />
+          <LineChart />
         </div>
 
         {/* CreatePayment and AllPayments - fixed width */}
         <div className="w-[30%] flex flex-col gap-4">
           <CreatePayment onNewPayment={handleNewPayment} />
           <AllPayments />
-          {/* <DonutChart/>
-          <LineChart/> */}
         </div>
       </div>
     </div>

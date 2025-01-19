@@ -6,35 +6,35 @@ const AllPayments = () => {
   const [loading, setLoading] = useState(true) // State to handle loading
   const [error, setError] = useState(null) // State to handle errors
 
-  // Function to fetch payments from the server
-  const fetchPayments = async () => {
-    try {
-      const token = localStorage.getItem('token') // Get the token from localStorage
-      if (!token) {
-        setError('You must be logged in to view payments.')
-        setLoading(false)
-        return
-      }
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        const token = localStorage.getItem('token') // Get the token from localStorage
+        if (!token) {
+          setError('You must be logged in to view payments.')
+          setLoading(false)
+          return
+        }
 
         const response = await axios.get('/api/payment/getPayment', {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in the request header
           },
-        });
-        console.log('response', response.data.user.expenseHistory);
-        setPayments(response.data.user.expenseHistory || []); // Update state with payments data
+        })
+        console.log(response.user)
+        console.log('response', response.data.user.expenseHistory)
+        setPayments(response.data.user.expenseHistory || []) // Update state with payments data
       } catch (err) {
-        console.error('Error fetching payments:', err);
-        setError(err.response?.data?.message || 'Failed to fetch payments.');
+        console.error('Error fetching payments:', err)
+        setError(err.response?.data?.message || 'Failed to fetch payments.')
       } finally {
-        setLoading(false); // Stop loading after the request
+        setLoading(false) // Stop loading after the request
       }
-    };
+    }
 
-    fetchPayments();
-  }, []); // Empty dependency array to run on component mount
+    fetchPayments()
+  }, []) // Empty dependency array to run on component mount
 
-  // Format the date to a more readable format
   const formatDate = (dateString) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
@@ -44,25 +44,23 @@ const AllPayments = () => {
     })
   }
 
-  const handleNewPayment = () => {
-    fetchPayments()
-  }
-
   if (loading)
-    return <div className="p-6 text-center text-white">Loading payments...</div>
+    return (
+      <div className="p-6 text-center text-gray-400">Loading payments...</div>
+    )
   if (error) return <div className="p-6 text-center text-red-500">{error}</div>
 
   return (
-    <div className="max-h-[350px] overflow-y-auto p-6 w-full mx-auto text-white shadow-lg bg-gray-800 rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">All Payments</h1>
+    <div className="h-[500px] overflow-y-auto p-6 w-full mx-auto text-white shadow-lg bg-gray-800 rounded-lg">
+      <h1 className="text-2xl font-bold mb-4 text-gray-100">All Payments</h1>
       {payments.length === 0 ? (
         <p className="text-gray-400">No payments found.</p>
       ) : (
-        <ul className="space-y-4">
+        <ul className="space-y-4 p-2">
           {payments.map((payment, index) => (
             <li
               key={index} // Using index since there's no unique ID for each payment
-              className="bg-gray-900 p-4 rounded-lg shadow-md hover:scale-105 hover:cursor-pointer hover:shadow-lg transition duration-200"
+              className="bg-gray-700 p-4 rounded-lg shadow-md hover:shadow-lg hover:scale-105 hover:cursor-pointer hover:bg-gray-600 transition duration-200"
             >
               <p className="text-gray-300">
                 <strong>Amount:</strong> ${payment.amount || '0.00'}
