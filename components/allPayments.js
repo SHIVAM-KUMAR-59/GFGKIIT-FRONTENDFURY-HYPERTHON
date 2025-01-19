@@ -79,6 +79,7 @@ const AllPayments = () => {
         </ul>
       )}
     </div>
+    // all payments done
   );
 };
 
