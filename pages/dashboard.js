@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import '@/app/globals.css'
 import CreatePayment from '@/components/createPayment'
-import AllPayments from '@/components/allPayments'
 
 const Dashboard = () => {
   return (
@@ -12,7 +11,6 @@ const Dashboard = () => {
             Payment Dashboard
           </h2>
           <CreatePayment />
-          {/* <AllPayments /> */}
         </div>
       </div>
     </>
