@@ -1,73 +1,85 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AllPayments = () => {
-  const [payments, setPayments] = useState([]) // State to store payments
-  const [loading, setLoading] = useState(true) // State to handle loading
-  const [error, setError] = useState(null) // State to handle errors
+  const [payments, setPayments] = useState([]); // State to store payments
+  const [loading, setLoading] = useState(true); // State to handle loading
+  const [error, setError] = useState(null); // State to handle errors
 
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const token = localStorage.getItem('token') // Get the token from localStorage
+        const token = localStorage.getItem('token'); // Get the token from localStorage
         if (!token) {
-          setError('You must be logged in to view payments.')
-          setLoading(false)
-          return
+          setError('You must be logged in to view payments.');
+          setLoading(false);
+          return;
         }
 
         const response = await axios.get('/api/payment/getPayment', {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in the request header
           },
-        })
-        console.log('response', response.data.user.expenseHistory)
-        setPayments(response.data.user.expenseHistory) // Update state with payments data
+        });
+        console.log('response', response.data.user.expenseHistory);
+        setPayments(response.data.user.expenseHistory || []); // Update state with payments data
       } catch (err) {
-        console.error('Error fetching payments:', err)
-        setError(err.response?.data?.message || 'Failed to fetch payments.')
+        console.error('Error fetching payments:', err);
+        setError(err.response?.data?.message || 'Failed to fetch payments.');
       } finally {
-        setLoading(false) // Stop loading after the request
+        setLoading(false); // Stop loading after the request
       }
-    }
+    };
 
-    fetchPayments()
-  }, []) // Empty dependency array to run on component mount
+    fetchPayments();
+  }, []); // Empty dependency array to run on component mount
 
-  if (loading) return <div>Loading payments...</div>
-  if (error) return <div className="text-red-500">{error}</div>
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
+  if (loading) return <div className="p-6 text-center">Loading payments...</div>;
+  if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">All Payments</h1>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-gray-900">All Payments</h1>
       {payments.length === 0 ? (
-        <p>No payments found.</p>
+        <p className="text-gray-700">No payments found.</p>
       ) : (
         <ul className="space-y-4">
-          {payments.map((payment) => (
+          {payments.map((payment, index) => (
             <li
-              key={payment.id}
-              className="bg-gray-100 p-4 rounded-lg shadow-md"
+              key={index} // Using index since there's no unique ID for each payment
+              className="bg-white p-4 rounded-lg shadow-md"
             >
-              <p>
-                <strong>ID:</strong> {payment.id}
+              <p className="text-gray-800">
+                <strong>Amount:</strong> ${payment.amount || '0.00'}
               </p>
-              <p>
-                <strong>Amount:</strong> ${payment.amount}
-              </p>
-              <p>
+              <p className="text-gray-800">
                 <strong>Date:</strong>{' '}
-                {new Date(payment.date).toLocaleDateString()}
+                {payment.createdAt
+                  ? formatDate(payment.createdAt)
+                  : 'N/A'}
               </p>
-              <p>
-                <strong>Description:</strong> {payment.description || 'N/A'}
+              <p className="text-gray-800">
+                <strong>Category:</strong> {payment.category || 'N/A'}
+              </p>
+              <p className="text-gray-800">
+                <strong>Description:</strong>{' '}
+                {payment.description || 'No description provided'}
               </p>
             </li>
           ))}
         </ul>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default AllPayments
+export default AllPayments;
