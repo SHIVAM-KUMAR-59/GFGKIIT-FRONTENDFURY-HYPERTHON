@@ -1,16 +1,24 @@
 "use client";
 
-import React from 'react';
-import { useRouter } from 'next/navigation'; 
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Wallet } from 'lucide-react';
 import BackgroundIcons from '../components/BackGroundIcons';
 import { quotes } from '@/store/Quotes';
 
 const HomePage = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-  const router = useRouter(); 
+  const router = useRouter();
+
+  // Check user login status
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
   const navigateTo = (path) => {
-    router.push(path); 
+    router.push(path);
   };
 
   return (
@@ -34,18 +42,29 @@ const HomePage = () => {
         </div>
 
         <div className="flex flex-col gap-2 mt-6">
-          <button
-            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
-            onClick={() => navigateTo('/auth/login')} 
-          >
-            Sign In
-          </button>
-          <button
-            className="w-full py-3 px-4 border border-gray-700 hover:bg-gray-800 text-gray-300 font-semibold rounded-lg transition-colors"
-            onClick={() => navigateTo('/auth/register')} 
-          >
-            Create Account
-          </button>
+          {isLoggedIn ? (
+            <button
+              className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+              onClick={() => navigateTo('/dashboard')}
+            >
+              Add Payments
+            </button>
+          ) : (
+            <>
+              <button
+                className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+                onClick={() => navigateTo('/auth/login')}
+              >
+                Sign In
+              </button>
+              <button
+                className="w-full py-3 px-4 border border-gray-700 hover:bg-gray-800 text-gray-300 font-semibold rounded-lg transition-colors"
+                onClick={() => navigateTo('/auth/register')}
+              >
+                Create Account
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
